@@ -6,8 +6,8 @@ TEST SUITE/
 ├── data/                          
 │   └── auth_expected_data.py       # Contains static expected data for auth tests
 ├── shared/                         # Shared test utilities and data
-├── tests/                          # All test files grouped by modules/features
 │   ├── auth_tests.py               # Tests for authentication-related cases (TC-01 to TC-04)
+├── tests/                          # All test files grouped by modules/features
 │   ├── Association_List_Tests.py   # Tests for association list API, pagination, etc.
 ├── utils/                          
 │   └── request_handler.py          # Wrapper for sending REST/GraphQL HTTP requests
