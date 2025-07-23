@@ -1,3 +1,6 @@
+## 🗂 Project Structure
+
+```text
 TEST SUITE/
 ├── assets/                         # Optional assets like images or documentation references
 ├── data/                          
@@ -12,6 +15,3 @@ TEST SUITE/
 ├── report.html                     # HTML test execution report (auto-generated)
 ├── requirements.txt                # Python dependencies for running the test suite
 └── README.md                       # Project overview, setup, and usage instructions
-
-TEST CASES
-https://docs.google.com/spreadsheets/d/1ZD_de5ntkz6oPYfoY0z1SDX0hbmvUSnoRdFaUSTkwwM/edit?usp=sharing
