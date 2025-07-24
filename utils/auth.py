@@ -1,5 +1,11 @@
-from data.rest.auth_expected_data import EXPECTED_INVALID_TOKEN_ERROR
+import json
 from utils.request_handler import send_get_request
+
+# Load expected auth data from JSON file
+with open("data/auth/auth.json") as f:
+    auth_data = json.load(f)
+
+EXPECTED_INVALID_TOKEN_ERROR = auth_data["EXPECTED_INVALID_TOKEN_ERROR"]
 
 def run_valid_token_authentication(endpoint, base_url, valid_headers):
     url = f"{base_url}{endpoint}"
@@ -40,4 +46,3 @@ def run_empty_token(endpoint, base_url, empty_token_headers):
     assert json_data["error"]["code"] == EXPECTED_INVALID_TOKEN_ERROR["code"]
     assert json_data["error"]["http_status_code"] == EXPECTED_INVALID_TOKEN_ERROR["http_status_code"]
     assert json_data["error"]["msg"] == EXPECTED_INVALID_TOKEN_ERROR["msg"]
-

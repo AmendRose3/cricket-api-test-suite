@@ -1,0 +1,10 @@
+{
+  "operationName": "RegionReadQuery",
+  "variables": {
+    "resource": {
+      "_hashkey": "a-intern-test--can-OxoY"
+    },
+    "withHistory": true
+  },
+  "query": "query RegionReadQuery($resource: RegionInput!, $withHistory: Boolean) {\n  sports_region_read(resource: $resource, with_history: $withHistory) {\n    item {\n      resource {\n        account\n        key\n        hashkey: _hashkey\n        __typename\n      }\n      region {\n        code\n        short_code\n        name\n        kind\n        country\n        state\n        official_name\n        internal_name\n        __typename\n      }\n      status {\n        published\n        notes\n        __typename\n      }\n      __typename\n    }\n    history {\n      cs {\n        records {\n          raw\n          ts\n          action\n          att_stage\n          authors {\n            key\n            name\n            ts\n            email\n            picture_key\n            ip\n            __typename\n          }\n          __typename\n        }\n        cs_name\n        version_key_meta {\n          resource_id\n          resource_key\n          cs_name\n          __typename\n        }\n        draft {\n          raw\n          ts\n          action\n          att_stage\n          authors {\n            key\n            name\n            ts\n            email\n            picture_key\n            ip\n            __typename\n          }\n          __typename\n        }\n        ready_to_publish {\n          raw\n          ts\n          action\n          att_stage\n          authors {\n            key\n            name\n            ts\n            email\n            picture_key\n            ip\n            __typename\n          }\n          __typename\n        }\n        next_page_key\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"
+}

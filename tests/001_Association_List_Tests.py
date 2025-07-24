@@ -1,17 +1,22 @@
-import pytest
-import requests
+import pytest,requests,json
 from utils.request_handler import send_get_request,send_post_request,make_graphql_request
-from data.rest.auth_expected_data import EXPECTED_INVALID_TOKEN_ERROR,PARENT_ASSOCIATION_KEY,CHILD_ASSOCIATION_KEY,REGIONAL_ASSOCIATION_KEY
-from shared.auth_tests import (
+from tests.state import AssociationState
+from pathlib import Path
+from utils.auth import (
     run_valid_token_authentication,
     run_invalid_token,
     run_missing_token,
     run_empty_token
 )
 
+PARENT_ASSOCIATION_KEY = AssociationState.parent_key
+CHILD_ASSOCIATION_KEY = AssociationState.child_key
+REGIONAL_ASSOCIATION_KEY = AssociationState.regional_key
+
 ENDPOINT = "association/list/"
 
 def test_valid_token_authentication(base_url, valid_headers):
+    print(valid_headers)
     run_valid_token_authentication(ENDPOINT, base_url, valid_headers)
 
 def test_invalid_token(base_url, invalid_headers):
@@ -132,7 +137,7 @@ def test_tc_12_regional_association_structure(valid_headers, base_url):
 
 
 
-def test_tc_12_negetive_page_number(valid_headers, base_url):
+def test_tc_13_negetive_page_number(valid_headers, base_url):
     PAGE = "-100/"
     url = f"{base_url}{ENDPOINT}{PAGE}"
     res = requests.get(url, headers=valid_headers)
@@ -149,7 +154,7 @@ def test_tc_12_negetive_page_number(valid_headers, base_url):
 
 
 
-def test_tc_12_zero_page_number(valid_headers, base_url):
+def test_tc_14_zero_page_number(valid_headers, base_url):
     PAGE= "0/"
     url = f"{base_url}{ENDPOINT}{PAGE}"
     res = requests.get(url,headers=valid_headers)
@@ -161,8 +166,64 @@ def test_tc_12_zero_page_number(valid_headers, base_url):
 
 
 
-def test_tc_12_graphql_matches_rest(valid_headers, graphql_headers, base_url, graphql_url):
-    print("Hello")
+# def test_tc_15_graphql_matches_rest(valid_headers, graphql_headers, base_url, graphql_url):
+#     print("Hello")
+#     rest_url = f"{base_url}{ENDPOINT}"
+#     rest_res = requests.get(rest_url, headers=valid_headers)
+#     assert rest_res.status_code == 200
+
+#     rest_data = rest_res.json()["data"]["associations"]
+#     rest_entry = next((a for a in rest_data if a["key"] == CHILD_ASSOCIATION_KEY), None)
+#     assert rest_entry is not None, f"Association with key {CHILD_ASSOCIATION_KEY} not found in REST"
+
+#     graphql_query = """
+#     query AssociationReadQuery($resource: AssociationInput!, $withHistory: Boolean) {
+#       sports_association_read(resource: $resource, with_history: $withHistory) {
+#         item {
+#           resource {
+#             key
+#             _hashkey
+#           }
+#           association {
+#             code
+#             name
+#             region {
+#               _hashkey
+#             }
+#             parent {
+#               _hashkey
+#             }
+#           }
+#         }
+#       }
+#     }
+#     """
+#     variables = {
+#         "resource": {"_hashkey": CHILD_ASSOCIATION_KEY},
+#         "withHistory": True
+#     }
+
+#     graphql_res = make_graphql_request(graphql_url, graphql_headers, graphql_query, variables, "AssociationReadQuery")
+#     assert graphql_res is not None
+#     assert graphql_res.status_code == 200
+#     graphql_data = graphql_res.json()["data"]["sports_association_read"]["item"]
+#     print("GraphQL Response Body:", graphql_data)
+#     print("RestAPI body :",rest_entry)
+
+
+#     gql_association = graphql_data["association"]
+
+#     print(graphql_data["resource"])
+#     assert graphql_data["resource"]["_hashkey"] == rest_entry["key"]
+#     assert gql_association["code"] == rest_entry["code"]
+#     assert gql_association["name"] == rest_entry["name"]
+#     assert gql_association["parent"]["_hashkey"] in rest_entry["parent"], "Parent mismatch"
+
+
+
+
+def test_tc_15_graphql_matches_rest(valid_headers, graphql_headers, base_url, graphql_url):
+
     rest_url = f"{base_url}{ENDPOINT}"
     rest_res = requests.get(rest_url, headers=valid_headers)
     assert rest_res.status_code == 200
@@ -171,50 +232,32 @@ def test_tc_12_graphql_matches_rest(valid_headers, graphql_headers, base_url, gr
     rest_entry = next((a for a in rest_data if a["key"] == CHILD_ASSOCIATION_KEY), None)
     assert rest_entry is not None, f"Association with key {CHILD_ASSOCIATION_KEY} not found in REST"
 
-    graphql_query = """
-    query AssociationReadQuery($resource: AssociationInput!, $withHistory: Boolean) {
-      sports_association_read(resource: $resource, with_history: $withHistory) {
-        item {
-          resource {
-            key
-            _hashkey
-          }
-          association {
-            code
-            name
-            region {
-              _hashkey
-            }
-            parent {
-              _hashkey
-            }
-          }
-        }
-      }
-    }
-    """
-    variables = {
-        "resource": {"_hashkey": CHILD_ASSOCIATION_KEY},
-        "withHistory": True
-    }
+    graphql_file_path = Path("data/association/association_read_query.json")
+    with open(graphql_file_path, "r") as f:
+        gql_payload = json.load(f)
 
-    graphql_res = make_graphql_request(graphql_url, graphql_headers, graphql_query, variables, "AssociationReadQuery")
+    gql_payload["variables"]["resource"]["_hashkey"] = CHILD_ASSOCIATION_KEY
+
+    graphql_res = make_graphql_request(
+        graphql_url,
+        graphql_headers,
+        gql_payload["query"],
+        gql_payload["variables"],
+        gql_payload["operationName"]
+    )
+
     assert graphql_res is not None
     assert graphql_res.status_code == 200
+
     graphql_data = graphql_res.json()["data"]["sports_association_read"]["item"]
     print("GraphQL Response Body:", graphql_data)
-    print("RestAPI body :",rest_entry)
-
+    print("REST API Body:", rest_entry)
 
     gql_association = graphql_data["association"]
-
-    print(graphql_data["resource"])
     assert graphql_data["resource"]["_hashkey"] == rest_entry["key"]
     assert gql_association["code"] == rest_entry["code"]
     assert gql_association["name"] == rest_entry["name"]
     assert gql_association["parent"]["_hashkey"] in rest_entry["parent"], "Parent mismatch"
-
-
 
 
 

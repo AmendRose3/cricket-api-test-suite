@@ -7,3 +7,9 @@ venv/
 .DS_Store
 *.swp
 report.html
+
+# git remote add origin https://github.com/AmendRose3/cricket-api-test-suite.git
+# git add .
+# git commit -m "Initial commit: Add Cricket API test suite"
+# git branch -M main
+# git push -u origin main

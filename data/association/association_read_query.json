@@ -1,0 +1,10 @@
+{
+  "operationName": "AssociationReadQuery",
+  "variables": {
+    "resource": {
+      "_hashkey": ""
+    },
+    "withHistory": true
+  },
+  "query": "query AssociationReadQuery($resource: AssociationInput!, $withHistory: Boolean) {\n  sports_association_read(resource: $resource, with_history: $withHistory) {\n    item {\n      resource {\n        key\n        _hashkey\n      }\n      association {\n        code\n        name\n        region {\n          _hashkey\n        }\n        parent {\n          _hashkey\n        }\n      }\n    }\n  }\n}"
+}
