@@ -1,7 +1,7 @@
 {
   "operationName": "FeaturedTournamentQuery",
   "variables": {
-    "associationKey": "a-intern-test--icc-xNWr",
+    "associationKey": "",
     "curationKey": null
   },
   "query": "query FeaturedTournamentQuery($associationKey: String, $curationKey: String) {\n  cricket_featured_tournaments(\n    association_key: $associationKey\n    curation_key: $curationKey\n  ) {\n    tournaments {\n      key\n      name\n      short_name\n      countries {\n        short_code\n        code\n        name\n        official_name\n        is_region\n        __typename\n      }\n      start_date\n      gender\n      point_system\n      competition {\n        key\n        code\n        name\n        __typename\n      }\n      association_key\n      metric_group\n      sport\n      is_date_confirmed\n      is_venue_confirmed\n      last_scheduled_match_date\n      formats\n      __typename\n    }\n    __typename\n  }\n}"
