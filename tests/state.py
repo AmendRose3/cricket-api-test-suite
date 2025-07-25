@@ -17,6 +17,7 @@ class GraphQLState:
 
 
 class AssociationState:
+    key: str="a-intern-test--bcci-OFJF"
     parent_key: str = "a-intern-test--icc-aJRI"
     child_key: str = "a-intern-test--asso-68q5"
     regional_key: str = "a-intern-test--cwi-mcgp"
@@ -24,4 +25,7 @@ class AssociationState:
     
 class CountryState:
     code: str = "AUS"
+
+class StadiumState:
+    key: str='a-intern-test--chep-yvDg'
 

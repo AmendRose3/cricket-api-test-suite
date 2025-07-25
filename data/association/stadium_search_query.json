@@ -1,0 +1,7 @@
+{
+  "operationName": "StadiumSearchQuery",
+  "variables": {
+    "search": ""
+  },
+  "query": "query StadiumSearchQuery($search: String!, $page: PagedRequestInput) {\n  sports_stadium_search(search: $search, page: $page) {\n    items {\n      resource {\n        account\n        key\n        hashkey: _hashkey\n        __typename\n      }\n      stadium {\n        name\n        internal_name\n        sport\n        multi_sports\n        region {\n          account\n          key\n          hashkey: _hashkey\n          __typename\n        }\n        __typename\n      }\n      locale {\n        timezone\n        address\n        geo_location\n        __typename\n      }\n      __typename\n    }\n    page {\n      next_page_key\n      count\n      prev_page_key\n      __typename\n    }\n    __typename\n  }\n}"
+}
