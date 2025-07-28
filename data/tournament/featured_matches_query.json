@@ -1,0 +1,7 @@
+{
+  "operationName": "TournamentFeaturedMatchesQuery",
+  "variables": {
+    "key": ""
+  },
+  "query": "query TournamentFeaturedMatchesQuery($key: String!) {\n  cricket_tournament_featured_matches(tournament_key: $key) {\n    matches {\n      key\n      start_at\n      winner\n      status\n    }\n  }\n}"
+}

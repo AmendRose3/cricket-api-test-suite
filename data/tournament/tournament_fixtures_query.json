@@ -1,0 +1,7 @@
+{
+  "operationName": "TournamentFixturesQuery",
+  "variables": {
+    "key": ""
+  },
+  "query": "query TournamentFixturesQuery($key: String!, $pageKey: String) {\n  cricket_tournament_fixtures(tournament_key: $key, page_key: $pageKey) {\n    matches {\n      key\n      name\n      short_name\n      sub_title\n      status\n      start_at\n      tournament {\n        key\n        name\n        short_name\n        __typename\n      }\n      metric_group\n      sport\n      winner\n      teams {\n        key\n        value {\n          key\n          code\n          name\n          country_code\n          __typename\n        }\n        __typename\n      }\n      venue {\n        key\n        name\n        city\n        country {\n          short_code\n          code\n          name\n          official_name\n          is_region\n          __typename\n        }\n        __typename\n      }\n      association {\n        key\n        code\n        name\n        country {\n          short_code\n          code\n          name\n          official_name\n          is_region\n          __typename\n        }\n        parent\n        __typename\n      }\n      messages\n      gender\n      format\n      __typename\n    }\n    previous_page_key\n    next_page_key\n    __typename\n  }\n}"
+}

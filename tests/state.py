@@ -29,3 +29,7 @@ class CountryState:
 class StadiumState:
     key: str='a-intern-test--chep-yvDg'
 
+class TournamentState:
+    key: str='a-intern-test--cricket--samp-xu3D--tour-ta-6K43-tb-W9Df-T20--2025-hG3R'
+
+

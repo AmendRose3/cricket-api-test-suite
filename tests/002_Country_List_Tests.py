@@ -131,7 +131,7 @@ def test_tc_11_first_page_number(valid_headers, base_url):
 
 
 
-def test_tc_09_graphql_rest_country_match(graphql_headers, valid_headers,base_url,graphql_url):
+def test_tc_12_graphql_rest_country_match(graphql_headers, valid_headers,base_url,graphql_url):
 
     GRAPHQL_ENDPOINT = f"{graphql_url}"
     REST_COUNTRY_ENDPOINT = f"{base_url}{ENDPOINT}"
