@@ -79,54 +79,10 @@ def test_tc_05_tournament_detail_structure(base_url, valid_headers):
             assert isinstance(group.get("team_keys"), list)
             assert isinstance(group.get("match_keys"), list)
 
+# tours and series are same ,the names can be used to differntiate them 
+# Series will have more number of rounds and groups such as round-robin, knockout 
 
-# tournament is bilateral (exactly 2 unique teams)
-#wrong
-# def test_tc_06_tournament_is_bilateral(base_url, valid_headers):
-
-#     key="a-intern-test--cricket--bcci-OFJF--tour-ta-6K43-tb-W9Df-T20--2025-i3Xi"
-
-#     url = f"{base_url}{ENDPOINT.format(tournament_key=key)}"
-#     response = send_get_request(url, headers=valid_headers)
-    
-#     assert response.status_code == 200, "Invalid response"
-#     json_data = response.json()
-
-#     rounds = json_data["data"].get("rounds", [])
-#     all_team_keys = set()
-
-#     for rnd in rounds:
-#         for group in rnd.get("groups", []):
-#             all_team_keys.update(group.get("team_keys", []))
-
-#     assert all_team_keys, "No teams found in tournament groups"
-#     assert len(all_team_keys) == 2, f"Tournament is not bilateral (found {len(all_team_keys)} teams)"
-
-#wrong
-# tournament is multi-team
-# def test_tc_07_tournament_is_multi_team(base_url, valid_headers):
-
-#     key="a-intern-test--cricket--bcci-OFJF--c2-XxGh--2025-0Ye3"
-
-#     url = f"{base_url}{ENDPOINT.format(tournament_key=key)}"
-#     response = send_get_request(url, headers=valid_headers)
-    
-#     assert response.status_code == 200, "Invalid response"
-#     json_data = response.json()
-
-#     rounds = json_data["data"].get("rounds", [])
-#     all_team_keys = set()
-
-#     for rnd in rounds:
-#         for group in rnd.get("groups", []):
-#             all_team_keys.update(group.get("team_keys", []))
-
-#     assert all_team_keys, "No teams found in tournament groups"
-# assert len(all_team_keys) >= 2, f"Tournament is not multi-team (found {len(all_team_keys)} teams)"
-
-
-
-def test_tc_08_rest_match_graphql(valid_headers, graphql_headers):
+def test_tc_08_rest_match_graphql(valid_headers, graphql_headers, base_url):
     GRAPHQL_URL = "https://ants-api.sports.dev.roanuz.com/v5/gql/"
     GRAPHQL_FIXTURE_QUERY_FILE = "data/tournament/single_tournament_query.json"
 
@@ -135,6 +91,7 @@ def test_tc_08_rest_match_graphql(valid_headers, graphql_headers):
 
     gql_payload["variables"]["key"] = TournamentState.key
 
+    # Make GraphQL request
     graphql_response = make_graphql_request(
         url=GRAPHQL_URL,
         headers=graphql_headers,
@@ -142,5 +99,55 @@ def test_tc_08_rest_match_graphql(valid_headers, graphql_headers):
         variables=gql_payload["variables"],
         operation_name=gql_payload["operationName"]
     )
-
     assert graphql_response.status_code == 200, f"GraphQL error: {graphql_response.text}"
+    graphql_data = graphql_response.json()["data"]["cricket_tournament_detail"]
+
+    url = f"{base_url}{ENDPOINT.format(tournament_key=TournamentState.key)}"
+    rest_response = send_get_request(url, headers=valid_headers)
+    assert rest_response.status_code == 200, f"Unexpected status code: {rest_response.status_code}"
+    rest_data = rest_response.json()["data"]
+
+    gql_tournament = graphql_data["tournament"]
+    rest_tournament = rest_data["tournament"]
+
+    assert gql_tournament["key"] == rest_tournament["key"]
+    assert gql_tournament["name"] == rest_tournament["name"]
+    assert gql_tournament["short_name"] == rest_tournament["short_name"]
+    assert gql_tournament["gender"].lower() == rest_tournament["gender"]
+    gql_point_system = normalize_string(gql_tournament["point_system"])
+    rest_point_system = normalize_string(rest_tournament["point_system"])
+    assert gql_point_system == rest_point_system, f"Mismatch in point_system"        
+    assert gql_tournament["sport"].lower() == rest_tournament["sport"]
+
+    gql_teams = {team["key"]: team["value"]["name"] for team in graphql_data["teams"]}
+    rest_teams = {key: team["name"] for key, team in rest_data["teams"].items()}
+
+    assert gql_teams == rest_teams, f"Team mismatch: GraphQL={gql_teams}, REST={rest_teams}"
+
+    gql_rounds = graphql_data["rounds"]
+    rest_rounds = rest_data["rounds"]
+
+    assert len(gql_rounds) == len(rest_rounds), "Number of rounds mismatch"
+
+    for gql_round, rest_round in zip(gql_rounds, rest_rounds):
+        assert gql_round["key"] == rest_round["key"]
+        assert gql_round["name"] == rest_round["name"]
+        assert gql_round["format"].lower() == rest_round["format"]
+
+        gql_groups = gql_round["groups"]
+        rest_groups = rest_round["groups"]
+        assert len(gql_groups) == len(rest_groups), f"Group count mismatch in round {gql_round['name']}"
+
+        for gql_group, rest_group in zip(gql_groups, rest_groups):
+            assert gql_group["key"] == rest_group["key"]
+            assert gql_group["name"] == rest_group["name"]
+
+            gql_team_keys = sorted(gql_group["team_keys"])
+            rest_team_keys = sorted(rest_group["team_keys"])
+            assert gql_team_keys == rest_team_keys, f"Team keys mismatch in group {gql_group['name']}"
+
+            gql_match_keys = sorted(gql_group["match_keys"])
+            rest_match_keys = sorted(rest_group["match_keys"])
+            assert gql_match_keys == rest_match_keys, f"Match keys mismatch in group {gql_group['name']}"
+
+

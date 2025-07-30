@@ -30,6 +30,9 @@ class StadiumState:
     key: str='a-intern-test--chep-yvDg'
 
 class TournamentState:
-    key: str='a-intern-test--cricket--samp-xu3D--tour-ta-6K43-tb-W9Df-T20--2025-hG3R'
+    key: str='a-intern-test--cricket--isa2j-Srxj--is2j-GrV8--2025-NmJf'
+    team_key: str='a-intern-test--cricket--csk-a43S'
 
+class MatchState:
+    key: str=''
 

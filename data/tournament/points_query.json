@@ -1,0 +1,9 @@
+{
+  "operationName": "TournamentTable",
+  "variables": {
+    "key": ""
+  },
+  "query": "query TournamentTable($key: String!) {\n  cricket_tournament_points(tournament_key: $key) {\n    tournament {\n      key\n      name\n      short_name\n      __typename\n    }\n    rounds {\n      tournament_round {\n        key\n        name\n        __typename\n      }\n      groups {\n        group {\n          key\n          name\n          __typename\n        }\n        points {\n          team {\n            key\n            code\n            name\n            __typename\n          }\n          position_in_table\n          played\n          won\n          lost\n          tied\n          draw\n          no_result\n          points\n          net_run_rate\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"
+}
+
+

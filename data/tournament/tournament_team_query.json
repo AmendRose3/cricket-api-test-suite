@@ -1,0 +1,8 @@
+{
+  "operationName": "TournamentTeamQuery",
+  "variables": {
+    "key": "a-intern-test--cricket--isa2j-Srxj--is2j-GrV8--2025-NmJf",
+    "teamKey": "a-intern-test--cricket--csk-a43S"
+  },
+  "query": "query TournamentTeamQuery($key: String!, $teamKey: String!) {\n  cricket_tournament_team(tournament_key: $key, team_key: $teamKey) {\n    team {\n      key\n      code\n      name\n      __typename\n    }\n    tournament {\n      key\n      name\n      short_name\n      __typename\n    }\n    tournament_team {\n      players {\n        key\n        value {\n          key\n          name\n          jersey_name\n          legal_name\n          gender\n          nationality {\n            short_code\n            code\n            name\n            official_name\n            is_region\n            __typename\n          }\n          date_of_birth\n          seasonal_role\n          roles\n          batting_style\n          bowling_style {\n            arm\n            pace\n            bowling_type\n            __typename\n          }\n          skills\n          legal_name_v2\n          jersey_name_v2\n          __typename\n        }\n        __typename\n      }\n      player_keys\n      captain_keys\n      keeper_keys\n      players_by_format {\n        t20\n        oneday\n        test\n        t10\n        hundred_ball\n        sixty_ball\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"
+}

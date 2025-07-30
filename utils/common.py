@@ -11,4 +11,7 @@ def normalize_string(value):
     """Remove non-alphanumeric characters and convert to lowercase."""
     if not value:
         return ""
+    if not isinstance(value, str):
+        value = str(value)
     return re.sub(r'[^a-zA-Z0-9]', '', value).lower()
+

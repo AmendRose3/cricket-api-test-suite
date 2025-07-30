@@ -166,7 +166,6 @@ def test_tc_07_rest_match_graphql(valid_headers, graphql_headers, base_url):
 
         gql_match = gql_dict[match_key]
 
-        # Optional: validate fields
         gql_status = normalize_string(gql_match["status"])
         rest_status = normalize_string(rest_match["status"])
         assert gql_status == rest_status, f"Status mismatch for {match_key}: GQL={gql_status}, REST={rest_status}"
