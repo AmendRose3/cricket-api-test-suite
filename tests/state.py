@@ -34,5 +34,6 @@ class TournamentState:
     team_key: str='a-intern-test--cricket--csk-a43S'
 
 class MatchState:
-    key: str=''
+    key: str='a-intern-test--cricket--qo1950156409505226755'
+    over_key: str='b_1_2'
 

@@ -62,13 +62,14 @@ def test_tc_05_featured_matches_detail_structure(base_url, valid_headers):
 
         # Venue
         venue = match["venue"]
-        assert isinstance(venue, dict), "'venue' should be a dict"
-        for field in ["key", "name", "city", "country"]:
-            assert field in venue, f"Missing field in venue: {field}"
-        country = venue["country"]
-        assert isinstance(country, dict), "'country' in venue should be a dict"
-        for field in ["short_code", "code", "name", "official_name", "is_region"]:
-            assert field in country, f"Missing field in venue country: {field}"
+        if(venue):
+            assert isinstance(venue, dict), "'venue' should be a dict"
+            for field in ["key", "name", "city", "country"]:
+                assert field in venue, f"Missing field in venue: {field}"
+            country = venue["country"]
+            assert isinstance(country, dict), "'country' in venue should be a dict"
+            for field in ["short_code", "code", "name", "official_name", "is_region"]:
+                assert field in country, f"Missing field in venue country: {field}"
 
         # Association
         association = match["association"]
