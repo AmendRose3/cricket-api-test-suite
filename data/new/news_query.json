@@ -1,0 +1,3 @@
+{"operationName":"NewsAggregationQuery",
+"variables":{},
+"query":"query NewsAggregationQuery {\n  cricket_news_aggregation {\n    news {\n      title\n      description\n      description_text\n      image_url\n      link\n      provider {\n        name\n        url\n        __typename\n      }\n      updated\n      __typename\n    }\n    __typename\n  }\n}"}

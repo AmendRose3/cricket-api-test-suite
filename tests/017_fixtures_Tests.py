@@ -13,7 +13,7 @@ ENDPOINT = "fixtures/"
 
 def test_valid_token_authentication(base_url, valid_headers):
     print(valid_headers)
-    run_valid_token_authentication(ENDPOINT.format(match_key=MatchState.key), base_url, valid_headers)
+    run_valid_token_authentication(ENDPOINT, base_url, valid_headers)
 
 def test_invalid_token(base_url, invalid_headers):
     run_invalid_token(ENDPOINT, base_url, invalid_headers)

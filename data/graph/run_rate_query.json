@@ -1,0 +1,3 @@
+{"operationName":"CricketRunRateQuery",
+"variables":{"matchKey":""},
+"query":"query CricketRunRateQuery($matchKey: String!) {\n  cricket_match_run_rate(match_key: $matchKey) {\n    first_bat_team {\n      key\n      code\n      name\n      __typename\n    }\n    first_bowl_team {\n      key\n      code\n      name\n      __typename\n    }\n    x\n    y\n    y2_wickets\n    x_axis_label\n    y_axis_label\n    data_label\n    chart_type\n    y_colors\n    __typename\n  }\n}"}
