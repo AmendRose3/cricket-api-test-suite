@@ -9,6 +9,7 @@ EXPECTED_INVALID_TOKEN_ERROR = auth_data["EXPECTED_INVALID_TOKEN_ERROR"]
 
 def run_valid_token_authentication(endpoint, base_url, valid_headers):
     url = f"{base_url}{endpoint}"
+    print(url)
     res = send_get_request(url, headers=valid_headers)
     assert res.status_code == 200
     json_data = res.json()

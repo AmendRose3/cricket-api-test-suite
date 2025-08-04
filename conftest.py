@@ -25,6 +25,13 @@ def valid_headers():
     }
 
 @pytest.fixture
+def valid_headers_1():
+    return {
+        "rs-token": os.getenv("REST_TOKEN_1"),
+        "Content-Type": "application/json"
+    }
+
+@pytest.fixture
 def invalid_headers():
     return {
         "rs-token": "INVALID",

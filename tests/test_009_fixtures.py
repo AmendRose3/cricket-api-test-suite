@@ -97,8 +97,7 @@ def test_tc_05_get_tournament_fixtures_valid(base_url, valid_headers):
 #                     "geolocation": null
 #                 }
 
-import pytest
-import requests
+
 
 def test_tc_06_check_tbd_venue_from_fixtures(base_url, valid_headers):
     match_key = "a-intern-test--cricket--0Q1949781585960280066"

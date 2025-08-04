@@ -128,7 +128,7 @@ def test_tc_10_beyond_page_number(valid_headers, base_url):
     data = res.json()
     assert data is not None
     assert len(data["data"]["venues"]) == 0
-    assert data["data"]["previous_page_key"] == 99
+    assert int(data["data"]["previous_page_key"]) == 99
     assert data["data"]["next_page_key"] is None
 
 

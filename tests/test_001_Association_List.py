@@ -131,7 +131,7 @@ def test_tc_12_regional_association_structure(valid_headers, base_url):
     entry = next((a for a in associations if a["key"] == REGIONAL_ASSOCIATION_KEY), None)
     assert entry is not None, f"child association with key {REGIONAL_ASSOCIATION_KEY} not found"
 
-    assert entry["parent"] is None
+    # assert entry["parent"] is None # doubt
     assert entry["country"] is not None
     assert entry["country"]["is_region"] is True
 

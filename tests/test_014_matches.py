@@ -18,7 +18,7 @@ upcoming_key="a-intern-test--cricket--0Q1949781585960280066"
 super_over_key="a-intern-test--cricket--0U1950433793362022404"
 # delayed_start=""
 drawn_match_key="a-intern-test--cricket--KU1950455781946204164"
-# Abandoned_match_key=""
+Abandoned_match_key="a-intern-test--cricket--Z41951155191541829634"
 
 ENDPOINT = "match/{match_key}/"
 
@@ -464,3 +464,12 @@ def test_tc_13_match_featured_rest_vs_graphql(base_url, valid_headers, graphql_h
         assert gql_team["code"] == rest_team["code"], f"Mismatch in team code for {team_key}"
         assert gql_team["name"] == rest_team["name"], f"Mismatch in team name for {team_key}"
         assert gql_team["country_code"] == rest_team.get("country_code"), f"Mismatch in team country_code for {team_key}"
+
+
+def test_tc_14_abandoned_match(base_url, valid_headers):
+    url = f"{base_url}{ENDPOINT.format(match_key=Abandoned_match_key)}"
+    response = send_get_request(url, headers=valid_headers)
+    assert response.status_code == 200, f"Unexpected status code: {response.status_code}"
+
+    data = response.json().get("data")
+    assert data.get("play_status") == "abandoned", "Match is expected to be abandoned"
