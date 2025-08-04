@@ -273,7 +273,7 @@ def test_tc_06_test_match_structure(base_url,valid_headers):
     json_data = response.json()
     data = json_data["data"]
     assert data["format"]=='test', "format is not T20"
-    # assert not data["play"]["overs_per_innings"], "Doubt"
+    # assert not data["play"]["overs_per_innings"], "Doubt" "unlimited overs"
 
 
 def test_tc_07_live_match(base_url,valid_headers):
