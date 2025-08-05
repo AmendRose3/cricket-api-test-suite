@@ -163,3 +163,6 @@ def test_tc_12_graphql_rest_country_match(graphql_headers, valid_headers,base_ur
     assert graphql_data["code"] == matched_country["code"]
     assert graphql_data["name"] == matched_country["name"]
     assert graphql_data["official_name"] == matched_country["official_name"]
+
+
+#region with other option wont apear in the list
